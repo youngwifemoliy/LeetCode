@@ -13,14 +13,13 @@
 var hammingDistance = function (x, y) {
     let x2 = x.toString(2);
     let y2 = y.toString(2);
-    console.log(['x2', x2, 'y2', y2]);
     let count = x2.length > y2.length ? x2.length : y2.length;
-    console.log(count);
+    x2 = x2.padStart(count, 0);
+    y2 = y2.padStart(count, 0);
     let result = 0;
-    for (let i = count; i <= 0; i--) {
-        console.log(i);
-        let xi = x2[i] == undefined ? 0 : x2[i];
-        let yi = y2[i] == undefined ? 0 : y2[i];
+    for (let i = 1; i <= count; i++) {
+        let xi = x2[count - i] == undefined ? 0 : x2[count - i];
+        let yi = y2[count - i] == undefined ? 0 : y2[count - i];
         if (xi != yi) {
             result += 1;
         }
@@ -28,6 +27,4 @@ var hammingDistance = function (x, y) {
     return result;
 };
 
-let aaa = hammingDistance(1, 4);
-console.log(aaa);
 // @lc code=end
