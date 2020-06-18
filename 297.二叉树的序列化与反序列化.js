@@ -19,13 +19,21 @@
  * @param {TreeNode} root
  * @return {string}
  */
+// BFS
 var serialize = function (root) {
-    if (root == null) {
-        return "X";
+    let rootArray = [root];
+    let res = [];
+    while (rootArray.length) {
+        let node = rootArray.shift();
+        if (node) {
+            res.push(node.val);
+            rootArray.push(node.left);
+            rootArray.push(node.rihgt);
+        } else {
+            res.push("x");
+        }
     }
-    let left = serialize(root.left);
-    let right = serialize(root.right);
-    return root.val + "," + left + "," + right
+    return res.join(",");
 };
 
 /**
@@ -34,22 +42,26 @@ var serialize = function (root) {
  * @param {string} data
  * @return {TreeNode}
  */
+// BFS
 var deserialize = function (data) {
-    // console.log(data);
-    const list = data.split(',') // 转成list数组
-    return buildTree(list) // 构建树，dfs的入口
-};
-
-const buildTree = (list) => { // dfs函数
-    const nodeVal = list.shift() // 当前考察的节点
-    if (nodeVal == 'X') { // 是X，返回null给父调用
-        return null
+    console.log(data);
+    if (data == "x") {
+        return null;
     }
-    const node = new TreeNode(nodeVal) // 创建node节点
-    node.left = buildTree(list) // 构建node的左子树
-    node.right = buildTree(list) // 构建node的右子树
-    return node // 返回以node为根节点的子树给父调用
-}
+    let dataArray = data.split(",");
+    let index = 1;
+    const node = new TreeNode(dataArray.shift());
+    while (index < dataArray.length) {
+        if (dataArray[index] != "x") {
+            node.left = dataArray[index];
+        }
+        if (dataArray[index + 1] != "x") {
+            node.right = dataArray[index + 1];
+        }
+        index += 2;
+    }
+    return node;
+};
 
 /**
  * Your functions will be called as such:
